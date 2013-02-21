@@ -97,16 +97,37 @@ public class FlightFinderTest {
 	}
 	
 	@Test
+	public void testNumFlightsDirect_4() {
+		
+		// test a flight where home and destination are the same
+		// based on what's in Flight.allFlights
+		
+		// note that, if "direct" is true, then "timeLimit" should not be used
+		int actual = ff.numFlights("PHL", "PHL", true, 0);
+		
+		int expected = 0;
+		assertEquals(expected, actual);
+		
+		// don't forget to check the side effects!!
+		ArrayList<Flight> direct = ff.directFlights();
+		assertEquals(0, direct.size()); // check number of elements in list
+			
+		// check that there are no indirect flights reported
+		ArrayList<Flight[]> indirect = ff.indirectFlights();
+		assertEquals(0, indirect.size());
+
+	}
+	
+	@Test
 	public void testNumFlightsIndirect_1() {
 		
 		// test an indirect flight that should exist
 		// based on what's in Flight.allFlights
 		
-		int actual = ff.numFlights("IAD", "BOS", false, 60+95);
+		int actual = ff.numFlights("IAD", "BOS", false, 1000);
 		
 		int expected = 1;
 		assertEquals(expected, actual);
-		
 		// check that there are no direct flights reported
 		ArrayList<Flight> direct = ff.directFlights();
 		assertEquals(0, direct.size()); // check number of elements in list
@@ -199,6 +220,24 @@ public class FlightFinderTest {
 		assertEquals(expected, actual);
 		
 	}
+	
+	@Test
+	public void testNumFlightsIndirect_6() {
+	
+	// test an indirect flight that should exist
+	// based on what's in Flight.allFlights
+	
+	// note that, if "direct" is true, then "timeLimit" should not be used
+	int actual = ff.numFlights("LHR", "LHR", false, 1000);
+	
+	int expected = 2;
+	assertEquals(expected, actual);
+	
+	ArrayList<Flight> direct = ff.directFlights();
+	assertEquals(0, direct.size()); // check number of elements in list
+		
+}
+	
 
 	@Test
 	public void testNumFlightsHome() {
@@ -359,6 +398,15 @@ public class FlightFinderTest {
 	
 	@Test
 	public void testAllFlights_6() {
+		
+		// Test invalid sort criteria
+		List<Flight> actual = ff.allFlights("BOS", null);
+		//assertNull(actual);
+		assertEquals(null, actual.size());
+	}
+	
+	@Test
+	public void testAllFlights_7() {
 		
 		// Test case insensitivity
 		List<Flight> actual = ff.allFlights("bOS", FlightFinder.SortCriteria.DESTINATION);

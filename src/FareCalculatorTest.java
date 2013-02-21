@@ -87,6 +87,8 @@ public class FareCalculatorTest {
 		assertEquals(500, actual, 0);
 	}
 	
+	
+	
 	@Test
 	public void testCalculateFare_7() {
 		
@@ -128,6 +130,18 @@ public class FareCalculatorTest {
 		assertEquals(1020, actual, 0);
 	}
 	
+	@Test
+	public void testCalculateFare_10() {
+		
+		//
+		ArrayList<Flight> f = new ArrayList<Flight>();
+		f.add(flights[21]);
+		f.add(flights[23]);
+		
+		double actual = FareCalculator.calculateFare(f);
+		
+		assertEquals(715, actual, 0);
+	}
 	
 
 }
